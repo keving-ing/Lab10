@@ -97,5 +97,34 @@ public class RiversDAO {
 		return fmedio;
 	}
 	
+	public List<Double> getFlows(River r) {
+		
+		final String sql = "SELECT flow "
+				+ "FROM flow "
+				+ "WHERE river = ? "
+				+ "ORDER BY day";
+
+		List<Double> result = new LinkedList<Double>();
+
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, r.getId());
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				result.add(res.getDouble("flow"));
+			}
+
+			conn.close();
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new RuntimeException("SQL Error");
+		}
+
+		return result;
+	}
+	
 	
 }

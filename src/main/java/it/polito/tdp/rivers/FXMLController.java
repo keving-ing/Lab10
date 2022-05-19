@@ -63,6 +63,30 @@ public class FXMLController {
     	
 
     }
+    
+    @FXML
+    void doSimula(ActionEvent event) {
+    	
+    	List<LocalDate> date = model.getDateRivers(boxRiver.getValue());
+    	model.getFlows(boxRiver.getValue());
+    	txtResult.clear();
+    	try
+    	{
+    		double k = Double.parseDouble(txtK.getText());
+    		int ng = model.simula(k, boxRiver.getValue());
+    		double cmedia = model.getCmed()/date.size();
+    		txtResult.appendText("Numeo di giorni in cui non sará garantita l'erogazione minima: " + ng + "\n");
+    		txtResult.appendText("Erogazione media giornaliera: " + cmedia);
+    	}
+    	catch(NumberFormatException e)
+    	{
+    		txtResult.setText("INSERISCI UN NUMERO !!");
+    	}
+    	
+    	
+    	
+
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
